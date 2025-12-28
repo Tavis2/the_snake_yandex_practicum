@@ -6,10 +6,13 @@ class DummyClock:
     """Mock pygame.time.Clock."""
 
     def tick(self, fps=0):
+        """Mock tick."""
         return 16
+
 
 def _empty_list():
     return []
+
 
 pygame_mock = SimpleNamespace(
     time=SimpleNamespace(Clock=DummyClock),
