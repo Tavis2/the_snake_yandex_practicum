@@ -1,10 +1,5 @@
 """Conftests package for the Snake game project."""
 
-
-import sys
-
-import pygame
-
 from pygame.time import Clock
 from types import SimpleNamespace
 
