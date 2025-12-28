@@ -1,7 +1,6 @@
 """Snake game object."""
 
 import pygame
-
 from game_objects.game_object import GameObject
 from globals import CELL_SIZE, COLORS, HEIGHT, WIDTH
 
