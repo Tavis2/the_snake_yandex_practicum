@@ -1,7 +1,6 @@
 """Entry point for the Snake game."""
 
 import time
-
 import pygame
 
 from game.game import Game
