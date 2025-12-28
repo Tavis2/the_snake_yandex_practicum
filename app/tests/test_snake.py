@@ -7,6 +7,7 @@ class DummyScreen:
     """Mock screen object."""
 
     def fill(self, *_args, **_kwargs) -> None:
+        """Snake method."""
         pass
 
 
