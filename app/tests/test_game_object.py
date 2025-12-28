@@ -7,11 +7,12 @@ class DummyScreen:
     """Mock screen object."""
 
     def fill(self, *_args, **_kwargs) -> None:
+        """Snake function."""
         pass
 
 
 def test_game_object_position() -> None:
-    """GameObject should convert cell coords to pixels."""
+    """Gameоbject should convert cell coords to pixels."""
     screen = DummyScreen()
     obj = GameObject(2, 3, screen)
 
