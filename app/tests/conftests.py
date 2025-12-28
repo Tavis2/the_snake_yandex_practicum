@@ -1,3 +1,7 @@
+"""
+Docstring for the_snake.app.tests.conftests
+"""
+
 import sys
 from types import SimpleNamespace
 

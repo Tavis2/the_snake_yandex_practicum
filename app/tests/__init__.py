@@ -1,1 +1,3 @@
-"""Tests package for Snake game."""
+"""
+Docstring for the_snake.app.tests
+"""
