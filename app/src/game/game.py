@@ -1,7 +1,6 @@
 """Game logic controller."""
 
 import pygame
-
 from game_objects.apple import Apple
 from game_objects.snake import Snake
 from globals import CELL_SIZE, COLORS, HEIGHT, WIDTH

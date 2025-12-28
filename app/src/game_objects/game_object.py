@@ -1,7 +1,6 @@
 """Base game object."""
 
 import pygame
-
 from globals import CELL_SIZE
 
 
