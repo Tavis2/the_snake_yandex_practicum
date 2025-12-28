@@ -1,6 +1,6 @@
 """Entry point for the Snake game."""
 
-import time, pygame
+import pygame
 
 from game.game import Game
 from game_objects.apple import Apple
@@ -30,7 +30,6 @@ def main() -> None:
         time_delta = clock.tick(fps) / 1000
         game.tick(time_delta)
 
-    time.sleep(1)
     pygame.quit()
 
 
