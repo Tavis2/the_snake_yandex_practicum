@@ -1,7 +1,6 @@
 """Entry point for the Snake game."""
 
 import pygame
-
 from game.game import Game
 from game_objects.apple import Apple
 from game_objects.snake import Snake
