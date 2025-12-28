@@ -6,7 +6,6 @@ import pygame
 
 from game.game import Game
 from game_objects.apple import Apple
-from game_objects.game_object import GameObject
 from game_objects.snake import Snake
 from globals import HEIGHT, WIDTH
 
