@@ -1,6 +1,7 @@
 import sys
 from types import SimpleNamespace
-import pygame
+
+from pygame.time import Clock
 
 
 class DummyClock:
