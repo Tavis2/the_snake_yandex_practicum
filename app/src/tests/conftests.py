@@ -1,4 +1,4 @@
-'''Conftest for Snake game tests.'''
+"""Conftest for Snake game tests."""
 
 import os
 import sys
@@ -28,13 +28,13 @@ TIMEOUT_ASSERT_MSG = (
 
 
 def import_the_snake():
-    '''Импорт основного модуля snake.'''
+    """Импорт основного модуля snake."""
     import src.game.main  # noqa
 
 
 @pytest.fixture(scope='session')
 def snake_import_test():
-    '''Проверяет импорт без зависания.'''
+    """Проверяет импорт без зависания."""
     check_import_process = Process(target=import_the_snake)
     check_import_process.start()
     pid = check_import_process.pid
@@ -46,7 +46,7 @@ def snake_import_test():
 
 @pytest.fixture(scope='session')
 def _the_snake(snake_import_test):
-    '''Импортирует модуль src и проверяет наличие классов.'''
+    """Импортирует модуль src и проверяет наличие классов."""
     try:
         from src.game_objects.game_object import GameObject
         from src.game_objects.snake import Snake
@@ -66,7 +66,7 @@ def _the_snake(snake_import_test):
 
 
 def write_timeout_reasons(text, stream=None):
-    '''Заменяет вывод pytest_timeout на сообщение с причинами.'''
+    """Заменяет вывод pytest_timeout на сообщение с причинами."""
     if stream is None:
         stream = sys.stderr
     stream.write(TIMEOUT_ASSERT_MSG)
@@ -76,7 +76,7 @@ pytest_timeout.write = write_timeout_reasons
 
 
 def _create_game_object(class_name, module):
-    '''Создаёт объект класса с проверкой конструктора.'''
+    """Создаёт объект класса с проверкой конструктора."""
     try:
         cls = module[class_name]
         # Создаём с минимальными параметрами для тестов
@@ -98,17 +98,17 @@ def _create_game_object(class_name, module):
 
 @pytest.fixture
 def game_object(_the_snake):
-    '''Фикстура для GameObject.'''
+    """Фикстура для GameObject."""
     return _create_game_object('GameObject', _the_snake)
 
 
 @pytest.fixture
 def snake(_the_snake):
-    '''Фикстура для Snake.'''
+    """Фикстура для Snake."""
     return _create_game_object('Snake', _the_snake)
 
 
 @pytest.fixture
 def apple(_the_snake):
-    '''Фикстура для Apple.'''
+    """Фикстура для Apple."""
     return _create_game_object('Apple', _the_snake)
