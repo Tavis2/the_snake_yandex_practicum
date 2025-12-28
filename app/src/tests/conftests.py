@@ -1,19 +1,29 @@
 """Conftest for Snake game tests."""
 
-import sys
 import os
+import sys
 
-# Добавляем src в sys.path для корректных импортов
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-# Импортируем pygame (если установлен) или создаём минимальный мок только при необходимости
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+
+
+class DummyPygame:
+    """Minimal mock for pygame when not installed."""
+
+    class TimeClass:
+        """Mock for pygame.time."""
+
+        class ClockClass:
+            """Mock for pygame.time.Clock."""
+
+            def tick(self, fps: int = 0) -> int:
+                """Mock tick method returning 16ms."""
+                return 16
+
+    time = TimeClass()
+
+
 try:
-    import pygame
+    import pygame 
 except ImportError:
-    # Минимальный мок только для Clock, если pygame не установлен
-    class DummyPygame:
-        class time:
-            class Clock:
-                def tick(self, fps=0):
-                    return 16
     pygame = DummyPygame()
