@@ -1,3 +1,6 @@
 pytest>=7.0
+pygame>=2.0
+random
+time
 pytest-cov
 flake8
