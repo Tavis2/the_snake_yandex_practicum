@@ -1,8 +1,6 @@
 import sys
 from types import SimpleNamespace
 
-from pygame.time import Clock
-
 
 class DummyClock:
     """Mock pygame.time.Clock."""
@@ -20,7 +18,10 @@ pygame_mock = SimpleNamespace(
     QUIT=256,
     key=SimpleNamespace(get_pressed=lambda: []),
     event=SimpleNamespace(get=lambda: []),
-    draw=SimpleNamespace(rect=lambda *args, **kwargs: None, line=lambda *args, **kwargs: None),
+    draw=SimpleNamespace(
+        rect=lambda *args, **kwargs: None,
+        line=lambda *args, **kwargs: None,
+    ),
 )
 
 sys.modules['pygame'] = pygame_mock
