@@ -1,5 +1,5 @@
 from globals import *
-from game.field import draw_field  
+from game.game import Game  
 from game_objects.game_object import  GameObject
 from game_objects.apple import Apple
 from game_objects.snake import Snake
@@ -14,31 +14,22 @@ FPS = 60
 running = True
 frame_counting = 0
 
-apple = Apple(60, 60, screen)
-go = GameObject(30, 30, screen)
-snake = Snake(390, 480, screen)
+apple = Apple(8, 12, screen)
+go = GameObject(1, 1, screen)
+snake = Snake(8, 9, screen, 10)
 
-while running:
-    frame_counting += 1
+game = Game(screen, snake, apple, FPS)
+game.start()
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+game.add_game_object(apple, go, snake)
+
+while game.running:
+
     pygame.display.update()
-
-    draw_field(screen)
-
-    
-    go.draw()
-    apple.draw()
-    snake.draw()
-
-    if frame_counting >= FPS:
-        frame_counting = 0 
-        snake.move(FPS, "down")
-
     pygame.display.flip()
 
-    clock.tick(FPS)
+    time_delta = clock.tick(FPS) / 1000 
+    game.tick(time_delta)
 
+time.sleep(1)
 pygame.quit()

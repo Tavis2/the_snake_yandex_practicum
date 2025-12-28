@@ -4,9 +4,9 @@ class GameObject:
     color = (50,50,50)
     size = CELL_SIZE
 
-    def __init__(self, x, y, screen):
-        self.position_x = x
-        self.position_y = y
+    def __init__(self, cell_position_x, cell_position_y, screen):
+        self.position_x = cell_position_x * CELL_SIZE
+        self.position_y = cell_position_y *CELL_SIZE
         self.screen = screen
 
     def draw(self):
@@ -16,3 +16,5 @@ class GameObject:
             (self.position_x, self.position_y, self.size, self.size)
         )
 
+    def get_position(self, ):
+        return (self.position_x, self.position_y)
