@@ -22,11 +22,10 @@ def main() -> None:
     fps = 60
 
     apple = Apple(8, 12, screen)
-    game_object = GameObject(1, 1, screen)
     snake = Snake(8, 9, screen, body_cell_amount=10)
 
     game = Game(screen, snake, apple, fps)
-    game.add_game_object(apple, game_object, snake)
+    game.add_game_object(apple, snake)
     game.start()
 
     while game.running:
