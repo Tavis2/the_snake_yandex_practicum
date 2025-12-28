@@ -8,6 +8,8 @@ class DummyClock:
     def tick(self, fps=0):
         return 16
 
+def _empty_list():
+    return []
 
 pygame_mock = SimpleNamespace(
     time=SimpleNamespace(Clock=DummyClock),
@@ -16,8 +18,8 @@ pygame_mock = SimpleNamespace(
     K_a=97,
     K_d=100,
     QUIT=256,
-    key=SimpleNamespace(get_pressed=lambda: []),
-    event=SimpleNamespace(get=lambda: []),
+    key=SimpleNamespace(get_pressed=_empty_list),
+    event=SimpleNamespace(get=_empty_list),
     draw=SimpleNamespace(
         rect=lambda *args, **kwargs: None,
         line=lambda *args, **kwargs: None,
