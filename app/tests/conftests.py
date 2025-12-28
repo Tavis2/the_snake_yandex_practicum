@@ -2,6 +2,10 @@
 
 
 import sys
+
+import pygame
+
+from pygame.time import Clock
 from types import SimpleNamespace
 
 
@@ -31,7 +35,3 @@ pygame_mock = SimpleNamespace(
         line=lambda *args, **kwargs: None,
     ),
 )
-
-
-sys.modules['pygame'] = pygame_mock
-sys.modules['pygame.time'] = pygame_mock.time
