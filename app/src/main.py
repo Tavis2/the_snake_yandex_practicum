@@ -1,8 +1,8 @@
 """Entry point for the Snake game."""
+
 import time
 
 import pygame
-
 
 from game.game import Game
 from game_objects.apple import Apple
@@ -15,7 +15,7 @@ def main() -> None:
     pygame.init()
 
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
-    pygame.display.set_caption('Snake')
+    pygame.display.set_caption("Snake")
 
     clock = pygame.time.Clock()
     fps = 60
@@ -36,5 +36,5 @@ def main() -> None:
     pygame.quit()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
