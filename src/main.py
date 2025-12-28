@@ -1,35 +1,42 @@
-from globals import *
-from game.game import Game  
-from game_objects.game_object import  GameObject
+"""Entry point for the Snake game."""
+
+import time
+
+import pygame
+
+from game.game import Game
 from game_objects.apple import Apple
+from game_objects.game_object import GameObject
 from game_objects.snake import Snake
+from globals import HEIGHT, WIDTH
 
 
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("")
-clock = pygame.time.Clock()
+def main() -> None:
+    """Run the Snake game."""
+    pygame.init()
 
-FPS = 60
-running = True
-frame_counting = 0
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption('Snake')
 
-apple = Apple(8, 12, screen)
-go = GameObject(1, 1, screen)
-snake = Snake(8, 9, screen, 10)
+    clock = pygame.time.Clock()
+    fps = 60
 
-game = Game(screen, snake, apple, FPS)
-game.start()
+    apple = Apple(8, 12, screen)
+    game_object = GameObject(1, 1, screen)
+    snake = Snake(8, 9, screen, body_cell_amount=10)
 
-game.add_game_object(apple, go, snake)
+    game = Game(screen, snake, apple, fps)
+    game.add_game_object(apple, game_object, snake)
+    game.start()
 
-while game.running:
+    while game.running:
+        pygame.display.flip()
+        time_delta = clock.tick(fps) / 1000
+        game.tick(time_delta)
 
-    pygame.display.update()
-    pygame.display.flip()
+    time.sleep(1)
+    pygame.quit()
 
-    time_delta = clock.tick(FPS) / 1000 
-    game.tick(time_delta)
 
-time.sleep(1)
-pygame.quit()
+if __name__ == '__main__':
+    main()

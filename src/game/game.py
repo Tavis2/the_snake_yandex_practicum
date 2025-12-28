@@ -1,102 +1,140 @@
-from globals import pygame, CELL_SIZE, WIDTH, HEIGHT, colors
+"""Game logic controller."""
+
+import pygame
+
 from game_objects.apple import Apple
 from game_objects.snake import Snake
+from globals import CELL_SIZE, COLORS, HEIGHT, WIDTH
 
 
 class Game:
-    running = False
-    game_objects = []
+    """Main game controller."""
 
-    __key_interpretation = {
-        pygame.K_w: "down",
-        pygame.K_s: "up",
-        pygame.K_a: "left",
-        pygame.K_d: "right"
+    _KEY_MAP = {
+        pygame.K_w: 'down',
+        pygame.K_s: 'up',
+        pygame.K_a: 'left',
+        pygame.K_d: 'right',
     }
 
-    def __init__(self, screen, player: Snake, apple: Apple, FPS):
+    def __init__(
+        self,
+        screen,
+        player: Snake,
+        apple: Apple,
+        fps: int,
+    ) -> None:
+        """Initialize game state."""
         self.screen = screen
-        self.FPS = FPS
-
-        self.apple = apple
         self.player = player
+        self.apple = apple
+        self.fps = fps
 
-        # состояние игры
+        self.game_objects: list = []
+        self.running = False
         self.game_over = False
-        self.collision_position = None
+        self.collision_position: tuple[int, int] | None = None
 
-        # тайминг движения
-        self._move_interval = 1 / 3   # 3 движения в секунду
+        self._move_interval = 1 / 3
         self._move_timer = 0.0
 
-    # <=== логика игры ===>
-    def tick(self, time_delta):
+    def tick(self, time_delta: float) -> None:
+        """Process one game tick."""
+        self._handle_events()
+        self._handle_input()
+        self._update(time_delta)
+        self._render()
+
+    def _handle_events(self) -> None:
+        """Handle pygame events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.stop()
 
-        # ===== INPUT =====
-        if not self.game_over:
-            keys = pygame.key.get_pressed()
-            for key_code, direction in self.__key_interpretation.items():
-                if keys[key_code]:
-                    self.player.set_direction(direction)
-                    break
+    def _handle_input(self) -> None:
+        """Handle keyboard input."""
+        if self.game_over:
+            return
 
-        # ===== UPDATE =====
-        if not self.game_over:
-            self._move_timer += time_delta
-            if self._move_timer >= self._move_interval:
-                self._move_timer -= self._move_interval
-                self.player.move()
+        keys = pygame.key.get_pressed()
+        for key, direction in self._KEY_MAP.items():
+            if keys[key]:
+                self.player.set_direction(direction)
+                break
 
-                # самостолкновение — ПОСЛЕ движения
-                if self.player.is_self_encountered():
-                    self.collision_position = self.player.get_head_position()
-                    self.game_over = True
+    def _update(self, time_delta: float) -> None:
+        """Update game state."""
+        if self.game_over:
+            return
 
-                # яблоко
-                if self.apple.get_position() == self.player.get_head_position():
-                    self.player.eat_apple()
-                    self.apple.respawn(self.player)
+        self._move_timer += time_delta
+        if self._move_timer < self._move_interval:
+            return
 
-        # ===== RENDER =====
+        self._move_timer -= self._move_interval
+        self.player.move()
+
+        if self.player.is_self_encountered():
+            self.collision_position = self.player.get_head_position()
+            self.game_over = True
+
+        if self.apple.get_position() == self.player.get_head_position():
+            self.player.eat_apple()
+            self.apple.respawn(self.player)
+
+    def _render(self) -> None:
+        """Render game frame."""
         self._draw_background()
         self._draw_game_objects()
         self._draw_collision()
         self._draw_field()
-        
 
-    # <=== методы отрисовки ===>
-    def _draw_background(self):
-        self.screen.fill(colors["background"])
+    def _draw_background(self) -> None:
+        """Draw background."""
+        self.screen.fill(COLORS['background'])
 
-    def _draw_field(self):
-        for x in range(-1, WIDTH, CELL_SIZE):
-            pygame.draw.line(self.screen, colors["lines"], (x, 1), (x, HEIGHT), 3)
-        for y in range(-1, HEIGHT, CELL_SIZE):
-            pygame.draw.line(self.screen, colors["lines"], (1, y), (WIDTH, y), 3)
+    def _draw_field(self) -> None:
+        """Draw grid."""
+        for x in range(0, WIDTH, CELL_SIZE):
+            pygame.draw.line(
+                self.screen,
+                COLORS['lines'],
+                (x, 0),
+                (x, HEIGHT),
+            )
+        for y in range(0, HEIGHT, CELL_SIZE):
+            pygame.draw.line(
+                self.screen,
+                COLORS['lines'],
+                (0, y),
+                (WIDTH, y),
+            )
 
-    def _draw_game_objects(self):
+    def _draw_game_objects(self) -> None:
+        """Draw all game objects."""
         for obj in self.game_objects:
             obj.draw()
 
-    def _draw_collision(self):
-        if self.collision_position:
-            x, y = self.collision_position
-            pygame.draw.rect(
-                self.screen,
-                colors["colision"],
-                (x, y, CELL_SIZE, CELL_SIZE)
-            )
+    def _draw_collision(self) -> None:
+        """Draw collision cell."""
+        if not self.collision_position:
+            return
 
-    # <=== методы игры ===>
-    def add_game_object(self, *args):
-        for arg in args:
-            self.game_objects.append(arg)
+        x, y = self.collision_position
+        pygame.draw.rect(
+            self.screen,
+            COLORS['collision'],
+            (x, y, CELL_SIZE, CELL_SIZE),
+        )
 
-    def start(self):
+    def add_game_object(self, *objects) -> None:
+        """Register drawable game objects."""
+        self.game_objects.extend(objects)
+
+    def start(self) -> None:
+        """Start the game."""
         self.running = True
 
-    def stop(self):
+    def stop(self) -> None:
+        """Stop the game."""
         self.running = False

@@ -1,23 +1,26 @@
-from globals import pygame, random
-from globals import colors, WIDTH, HEIGHT, CELL_SIZE    
+"""Apple game object."""
+
+import random
+
 from game_objects.game_object import GameObject
+from globals import CELL_SIZE, COLORS, HEIGHT, WIDTH
+
 
 class Apple(GameObject):
-    color = colors["apple"]
+    """Apple object."""
 
-    def respawn(self, player):
+    color = COLORS['apple']
+
+    def respawn(self, player) -> None:
+        """Respawn apple avoiding snake body."""
         available_x = list(range(0, WIDTH, CELL_SIZE))
         available_y = list(range(0, HEIGHT, CELL_SIZE))
 
-        player_cells = player.get_position()
+        for cell in player.get_position():
+            if cell['x'] in available_x:
+                available_x.remove(cell['x'])
+            if cell['y'] in available_y:
+                available_y.remove(cell['y'])
 
-        for cell in player_cells:
-            if cell["x"] in available_x: available_x.remove(cell["x"])
-            if cell["y"] in available_y: available_y.remove(cell["y"])
-
-        x = random.choice(available_x)
-        y = random.choice(available_y)
-        
-        self.position_x = x
-        self.position_y = y
-
+        self.position_x = random.choice(available_x)
+        self.position_y = random.choice(available_y)
