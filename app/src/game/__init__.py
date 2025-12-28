@@ -1,3 +1,1 @@
-"""
-Docstring for the_snake.app.src.game
-"""
+"""Game package for the Snake game project."""

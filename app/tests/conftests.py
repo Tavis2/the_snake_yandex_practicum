@@ -1,25 +1,20 @@
-"""
-Docstring for the_snake.app.tests.conftests
-"""
+"""Conftests package for the Snake game project."""
+
 
 import sys
 from types import SimpleNamespace
 
 
-
 class DummyClock:
     """Mock pygame.time.Clock."""
-
 
     def tick(self, fps=0):
         """Mock tick."""
         return 16
 
 
-
 def _empty_list():
     return []
-
 
 
 pygame_mock = SimpleNamespace(
